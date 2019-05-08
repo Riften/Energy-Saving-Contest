@@ -7,4 +7,5 @@ serverport = '5000'
 categories = ['trash', 'cardboard', 'glass', 'metal', 'paper', 'plastic']
 datapath = 'dataset-resized'
 num_classes=6
-batch_size=1
+batch_size=16
+lr=0.01

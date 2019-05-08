@@ -43,8 +43,8 @@ class Logger(object):
         th.setFormatter(fmt_file)
         
         self.logger = logging.getLogger(filename)
-        self.logger.setLevel(self.level_relations.get(level))#设置日志级别
-        self.logger.addHandler(sh) #把对象加到logger里
+        self.logger.setLevel(self.level_relations.get(level))
+        self.logger.addHandler(sh)
         self.logger.addHandler(th)
     
     def record(self, info):
