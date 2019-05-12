@@ -4,7 +4,6 @@ import os
 from dataset import traverseData, formatData, MyDataset
 import config as cfg
 import torch
-import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 import torch.optim as optim
 import torch.nn as nn

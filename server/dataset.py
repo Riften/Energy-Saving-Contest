@@ -75,3 +75,8 @@ class MyDataset(torchDataset):
  
     def __len__(self):
         return len(self.imgs)
+    
+def im2tensor(imgpath, data_transform):
+    img=Image.open(imgpath).convert('RGB')
+    img = data_transform(img)
+    return img.unsqueeze(0)

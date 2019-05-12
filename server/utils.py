@@ -7,6 +7,8 @@ import logging
 from logging import handlers
 import torchvision.models as models
 import torch.nn as nn
+import torchvision.transforms as transforms
+
 def getModel(modelname, num_classes, pretrained=True):
     if modelname=='resnet18':
         model = models.resnet18(pretrained=pretrained)
