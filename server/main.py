@@ -1,5 +1,5 @@
 import argparse
-from utils import  Logger, getTimeStr, getModel
+from utils import  Logger, getTimeStr, getModel, getTransform
 import os
 from dataset import traverseData, formatData, MyDataset
 import config as cfg
@@ -11,30 +11,6 @@ import torch.nn as nn
 from tensorboardX import SummaryWriter
 import torchvision.models as models
 from trainer import Trainer
-
-
-
-def getTransform(reinforcement=True):
-    if reinforcement:
-        return {'train': transforms.Compose([
-        transforms.RandomSizedCrop(224),
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        ]),
-        'test': transforms.Compose([
-        transforms.Scale(256),
-        transforms.CenterCrop(224),
-        transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        ])}
-    else:
-        tmp_transform = transforms.Compose([
-        transforms.Scale(256),
-        transforms.CenterCrop(224),
-        transforms.ToTensor()
-        ])
-        return {'train': tmp_transform, 'test': tmp_transform}
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
