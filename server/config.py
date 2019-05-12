@@ -8,4 +8,4 @@ categories = ['trash', 'cardboard', 'glass', 'metal', 'paper', 'plastic']
 datapath = 'dataset-resized'
 num_classes=6
 batch_size=16
-lr=0.01
+lr=0.1
