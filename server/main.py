@@ -1,5 +1,5 @@
 import argparse
-from utils import  Logger, getTimeStr
+from utils import  Logger, getTimeStr, getModel
 import os
 from dataset import traverseData, formatData, MyDataset
 import config as cfg
@@ -12,18 +12,7 @@ from tensorboardX import SummaryWriter
 import torchvision.models as models
 from trainer import Trainer
 
-def getModel(modelname, num_classes, pretrained=True):
-    if modelname=='resnet18':
-        model = models.resnet18(pretrained=pretrained)
-    elif modelname=='resnet34':
-        model = models.resnet34(pretrained=pretrained)
-    elif modelname=='resnet50':
-        model = models.resnet50(pretrained=pretrained)
-    else:
-        raise ValueError('Unknown model type')
-    num_features = model.fc.in_features
-    model.fc = nn.Linear(num_features, num_classes)
-    return model
+
 
 def getTransform(reinforcement=True):
     if reinforcement:

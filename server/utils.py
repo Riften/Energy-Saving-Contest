@@ -5,6 +5,19 @@ Several useful utils.
 import time
 import logging
 from logging import handlers
+import torchvision.models as models
+def getModel(modelname, num_classes, pretrained=True):
+    if modelname=='resnet18':
+        model = models.resnet18(pretrained=pretrained)
+    elif modelname=='resnet34':
+        model = models.resnet34(pretrained=pretrained)
+    elif modelname=='resnet50':
+        model = models.resnet50(pretrained=pretrained)
+    else:
+        raise ValueError('Unknown model type')
+    num_features = model.fc.in_features
+    model.fc = nn.Linear(num_features, num_classes)
+    return model
 
 def getTimeStr():
     # return a string contining time info
