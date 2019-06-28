@@ -19,6 +19,9 @@ if __name__ == "__main__":
     parser.add_argument("-n", "--net", help="structure of network", action='store', type = str, default='resnet18')
     parser.add_argument("--pretrained", help="whether to use pretrained model", action='store_true')
     parser.add_argument("--reinforcement", help="whether to do data reinforcement", action='store_true')
+    parser.add_argument("--trained_model", help="Path of trained model", type=str, action="store")
+    parser.add_argument("--do_train", help="Whether to do training", action="store_true")
+    parser.add_argument("--do_eval", help="Whether to do evaluation", action="store_true")
     args = parser.parse_args()
     
     #recreate data if necessary
@@ -63,6 +66,13 @@ if __name__ == "__main__":
         logger.record('Create %s model with pretrained'%modelname)
     else:
         logger.record('Create %s model from scratch'%modelname)
+    #load trained model if given
+    if args.trained_model:
+        model_dict = torch.load(args.trained_model)
+        net.load_state_dict(model_dict['net'])
+        logger.record("Load model from %s" % args.trained_model)
+    
+
 
 
     criterion = nn.CrossEntropyLoss()
@@ -71,5 +81,12 @@ if __name__ == "__main__":
     
     tboardWriter = SummaryWriter(tblog)
     trainer = Trainer(train_loader, test_loader, net, logger, optimizer, criterion, device='cuda:0', lr_scheduler=lr_scheduler)
-    trainer.train(500, 1, ckp_dir, writer=tboardWriter)
+    if args.do_train:
+        logger.record('*** Training ***')
+        trainer.train(500, 1, ckp_dir, writer=tboardWriter)
+    elif args.do_eval:
+        logger.record('*** Testing ***')
+        loss, acc = trainer.test_epoch()
+        logger.record('Test loss %f' % loss)
+        logger.record('Test accuracy %f' % acc)
     tboardWriter.close()
